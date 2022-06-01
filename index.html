@@ -1,0 +1,44 @@
+<html>
+
+<body onload="launchNow()">
+
+<script src="./WebDirt/WebDirt-packed.js"></script> <!-- import WebDirt JS library -->
+
+
+
+<script type="module">
+import {launch, launchDirt , main, parse, play, printToConsole, renderStandalone } from './index.js'
+
+
+function launchNow(){
+	window._engineRecord = launch();
+	window._webDirt = launchDirt();
+	render();
+}
+
+
+function doEvaluate() {
+	var t = document.getElementById("code").value;
+	var x = parse(_engineRecord)(t)();
+	document.getElementById('status').textContent = x;
+}
+
+function render(){
+	renderStandalone(_engineRecord)(_webDirt)();
+	setTimeout(render, 250)
+}
+
+window.launchNow = launchNow;
+window.doEvaluate = doEvaluate;
+window.render = render;
+
+
+</script>
+<input type="text" id="code" onkeyup="doEvaluate()"/>
+
+
+<button onclick="doEvaluate()"> eval </button> 
+<div id="status"> </div>
+
+</body>
+</html>
